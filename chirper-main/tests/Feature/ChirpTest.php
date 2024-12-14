@@ -121,6 +121,37 @@ class ChirpTest extends TestCase
         $responseDelete->assertStatus(403);
     }
 
+    // Exercice 7
+    public function test_un_chirp_mis_a_jour_ne_peut_pas_avoir_un_contenu_vide()
+    {
+        $utilisateur = User::factory()->create();
+        $chirp = Chirp::factory()->create(['user_id' => $utilisateur->id]);
+
+        $this->actingAs($utilisateur);
+
+        $response = $this->put("/chirps/{$chirp->id}", [
+            'message' => '',
+        ]);
+
+        $response->assertSessionHasErrors(['message']);
+    }
+
+    public function test_un_chirp_mis_a_jour_ne_peut_pas_depasse_255_caracteres()
+    {
+        $utilisateur = User::factory()->create();
+        $chirp = Chirp::factory()->create(['user_id' => $utilisateur->id]);
+
+        $this->actingAs($utilisateur);
+
+        $response = $this->put("/chirps/{$chirp->id}", [
+            'message' => str_repeat('a', 256),
+        ]);
+
+        $response->assertSessionHasErrors(['message']);
+    }
+
+ 
+
 
      
      
