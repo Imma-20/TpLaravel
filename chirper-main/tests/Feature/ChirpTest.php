@@ -55,5 +55,16 @@ class ChirpTest extends TestCase
  
          $response->assertSessionHasErrors(['message']);
      } 
+     //Exercice 3
+    // public function test_les_chirps_sont_affiches_sur_la_page_d_accueil()
+    // {
+    //     $chirps = Chirp::factory()->count(3)->create();
+
+    //     $response = $this->get('/chirps');
+
+    //     foreach ($chirps as $chirp) {
+    //         $response->assertSee($chirp->contenu);
+    //     }
+    // }
      
      
