@@ -150,6 +150,21 @@ class ChirpTest extends TestCase
         $response->assertSessionHasErrors(['message']);
     }
 
+    // Exercie 8
+    public function test_un_utilisateur_ne_peut_pas_avoir_plus_de_10_chirps()
+    {
+        $utilisateur = User::factory()->create();
+        Chirp::factory()->count(10)->create(['user_id' => $utilisateur->id]);
+
+        $this->actingAs($utilisateur);
+
+        $response = $this->post('/chirps', [
+            'message' => '11ᵉ chirp',
+        ]);
+
+        $response->assertStatus(302);
+    }
+
  
 
 
