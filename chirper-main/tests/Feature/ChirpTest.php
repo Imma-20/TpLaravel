@@ -66,5 +66,26 @@ class ChirpTest extends TestCase
     //         $response->assertSee($chirp->contenu);
     //     }
     // }
+
+    // Exercice 4
+    public function test_un_utilisateur_peut_modifier_son_chirp()
+    {
+        $utilisateur = User::factory()->create();
+        $chirp = Chirp::factory()->create(['user_id' => $utilisateur->id]);
+
+        $this->actingAs($utilisateur);
+
+        $response = $this->put("/chirps/{$chirp->id}", [
+            'message' => 'Chirp modifié',
+        ]);
+
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('chirps', [
+            'id' => $chirp->id,
+            'message' => 'Chirp modifié',
+        ]);
+    }
+
      
      
